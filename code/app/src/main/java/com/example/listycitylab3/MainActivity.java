@@ -1,36 +1,43 @@
 package com.example.listycitylab3;
 
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.os.Bundle;
+import android.widget.ListView;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditCityDialog.Listener {
 
-    private ArrayList<String> dataList;
+    private ArrayList<City> cityData;
+    private CustomList cityAdapter;
     private ListView cityList;
-    private ArrayAdapter<String> cityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] cities = {
-                "Edmonton", "Vancouver", "Moscow",
-                "Sydney", "Berlin", "Vienna",
-                "Tokyo", "Beijing", "Osaka", "New Delhi"
-        };
+        cityData = new ArrayList<>();
+        cityData.add(new City("Edmonton", "AB"));
+        cityData.add(new City("Vancouver", "BC"));
+        cityData.add(new City("Toronto", "ON"));
+        cityData.add(new City("Hamilton", "ON"));
 
-        dataList = new ArrayList<>();
-        dataList.addAll(Arrays.asList(cities));
-        
+        cityAdapter = new CustomList(this, cityData);
         cityList = findViewById(R.id.city_list);
-        cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
         cityList.setAdapter(cityAdapter);
+
+        cityList.setOnItemClickListener((parent, view, position, id) -> {
+            City selected = cityData.get(position);
+            EditCityDialog dialog = EditCityDialog.newInstance(position, selected);
+            dialog.show(getSupportFragmentManager(), "edit_city");
+        });
+    }
+
+    @Override
+    public void onCityEdited(int position, String newName, String newProvince) {
+        City c = cityData.get(position);
+        c.setCity(newName);
+        c.setProvince(newProvince);
+        cityAdapter.notifyDataSetChanged();
     }
 }
