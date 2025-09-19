@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements EditCityDialog.Listener {
+public class MainActivity extends AppCompatActivity implements EditCity.Listener {
 
     private ArrayList<City> cityData;
     private CustomList cityAdapter;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements EditCityDialog.Li
 
         cityList.setOnItemClickListener((parent, view, position, id) -> {
             City selected = cityData.get(position);
-            EditCityDialog dialog = EditCityDialog.newInstance(position, selected);
+            EditCity dialog = EditCity.newInstance(position, selected);
             dialog.show(getSupportFragmentManager(), "edit_city");
         });
     }

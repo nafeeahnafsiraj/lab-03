@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class EditCityDialog extends DialogFragment {
+public class EditCity extends DialogFragment {
 
     private static final String ARG_POSITION = "position";
     private static final String ARG_CITY = "city_obj";
@@ -23,12 +23,12 @@ public class EditCityDialog extends DialogFragment {
 
     private Listener listener;
 
-    public static EditCityDialog newInstance(int position, City city) {
+    public static EditCity newInstance(int position, City city) {
         Bundle args = new Bundle();
         args.putInt(ARG_POSITION, position);
         args.putSerializable(ARG_CITY, city);
 
-        EditCityDialog fragment = new EditCityDialog();
+        EditCity fragment = new EditCity();
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +39,7 @@ public class EditCityDialog extends DialogFragment {
         if (context instanceof Listener) {
             listener = (Listener) context;
         } else {
-            throw new RuntimeException(context + " must implement EditCityDialog.Listener");
+            throw new RuntimeException(context + " must implement EditCity.Listener");
         }
     }
 
@@ -47,7 +47,7 @@ public class EditCityDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_edit_city, null);
+                .inflate(R.layout.edit_city, null);
 
         EditText nameField = view.findViewById(R.id.edit_city_name);
         EditText provinceField = view.findViewById(R.id.edit_city_province);
